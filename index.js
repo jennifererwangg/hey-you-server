@@ -56,6 +56,6 @@ app.delete("/user/:id", async (req, res) => {
   }
 });
 
-app.listen(5000, () => {
+app.listen(PORT, () => {
   console.log(`Server is starting on port ${PORT}`);
 });

@@ -13,6 +13,30 @@ app.use(express.json());
 app.post("/user", async (req, res) => {
   try {
     // connect to Twillio api
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      PhoneNumber: req.body.phone,
+      Day: req.body.day.toLowerCase(),
+      Time: req.body.time,
+      Week: req.body.week,
+      FullName: req.body.name,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch("https://pbx24by7.com/HeyYou/addUser.php", requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+
+    // insert new user here
     const newUser = await pool.query(
       "INSERT INTO users (user_phone, user_day, user_time, user_week, user_name, user_friend_name) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
       [
